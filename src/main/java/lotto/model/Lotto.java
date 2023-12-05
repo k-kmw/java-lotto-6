@@ -14,6 +14,15 @@ public class Lotto {
         this.numbers = numbers;
     }
 
+    private void validate(List<Integer> numbers) {
+        if (numbers.size() != Constant.LOTTO_NUMBER_COUNT) {
+            throw new IllegalArgumentException();
+        }
+        if (new HashSet<>(numbers).size() != numbers.size()) {
+            throw new IllegalArgumentException("중복된 숫자 존재");
+        }
+    }
+
     public List<Integer> getNumbers() {
         return Collections.unmodifiableList(numbers);
     }
@@ -22,15 +31,6 @@ public class Lotto {
         int matchCount = calculateMatchCount(winnerLotto.getLotto());
         boolean matchBonus = isHitBonusNum(winnerLotto.getBonusNum());
         return getResult(matchCount, matchBonus);
-    }
-
-    private void validate(List<Integer> numbers) {
-        if (numbers.size() != Constant.LOTTO_NUMBER_COUNT) {
-            throw new IllegalArgumentException();
-        }
-        if (new HashSet<>(numbers).size() != numbers.size()) {
-            throw new IllegalArgumentException("중복된 숫자 존재");
-        }
     }
 
     private int calculateMatchCount(Lotto lotto) {
