@@ -19,8 +19,8 @@ public class LottoService {
 
     public List<Result> getResults(List<Lotto> purchasedLottos, WinningLotto winningLotto) {
         List<Result> results = new ArrayList<>();
-        for (Lotto purchasedLotto : purchasedLottos) {
-            Result result = purchasedLotto.match(winningLotto);
+        for (Lotto lotto : purchasedLottos) {
+            Result result = lotto.match(winningLotto);
             results.add(result);
         }
         return results;

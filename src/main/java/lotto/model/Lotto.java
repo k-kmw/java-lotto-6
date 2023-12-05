@@ -26,18 +26,22 @@ public class Lotto {
     }
 
     public Result match(WinningLotto winnerLotto) {
-        int matchCount = 0;
-        boolean matchBonus = false;
-        for (Integer number : numbers) {
-            for (Integer winnerNumber : winnerLotto.getLotto().getNumbers()) {
-                if (number.equals(winnerNumber)) {
-                    matchCount++;
-                }
-            }
-            if (number == winnerLotto.getBonusNum().getNum()) {
-                matchBonus = true;
-            }
-        }
+        int matchCount = calculateMatchCount(winnerLotto.getLotto());
+        boolean matchBonus = isHitBonusNum(winnerLotto.getBonusNum());
+        return getResult(matchCount, matchBonus);
+    }
+
+    private int calculateMatchCount(Lotto lotto) {
+        return (int) numbers.stream()
+                .filter(lotto.getNumbers()::contains)
+                .count();
+    }
+
+    private boolean isHitBonusNum(BonusNum bonusNum) {
+        return numbers.contains(bonusNum.getNum());
+    }
+
+    private Result getResult(int matchCount, boolean matchBonus) {
         if (matchCount == 6) {
             return Result.FIRST;
         }
