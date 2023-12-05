@@ -4,18 +4,17 @@ public class PurchasePrice {
 
     private final int price;
 
-    public PurchasePrice(String price) {
+    public PurchasePrice(int price) {
         validate(price);
-        this.price = Integer.parseInt(price);
+        this.price = price;
     }
 
     public int getPrice() {
         return price;
     }
 
-    private void validate(String userInput) {
-        int price = Integer.parseInt(userInput);
-        if (price < 1000) {
+    private void validate(int price) {
+        if (price % 1000 != 0 || price < 1000) {
             throw new IllegalArgumentException("[ERROR]");
         }
     }

@@ -1,8 +1,10 @@
 package lotto;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import lotto.model.Lotto;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static camp.nextstep.edu.missionutils.test.Assertions.assertRandomUniqueNumbersInRangeTest;
@@ -53,6 +55,46 @@ class ApplicationTest extends NsTest {
             assertThat(output()).contains(ERROR_MESSAGE);
         });
     }
+
+    @Test
+    void 구매_금액_예외_테스트() {
+        assertSimpleTest(() -> {
+            runException("-1000");
+            assertThat(output()).contains(ERROR_MESSAGE);
+        });
+        assertSimpleTest(() -> {
+            runException("0");
+            assertThat(output()).contains(ERROR_MESSAGE);
+        });
+        assertSimpleTest(() -> {
+            runException("999");
+            assertThat(output()).contains(ERROR_MESSAGE);
+        });
+    }
+
+    @Test
+    void 로또_번호와_보너스_번호_중복() {
+        assertSimpleTest(() -> {
+            runException("1000", "1,2,3,4,5,6", "6");
+            assertThat(output()).contains(ERROR_MESSAGE);
+        });
+    }
+
+    @Test
+    void 로또_번호_예외() {
+        assertSimpleTest(() -> {
+            runException("1000", "1,2,3,4,5, ,");
+            assertThat(output()).contains(ERROR_MESSAGE);
+        });
+    }
+
+//    @Test
+//    void test() {
+//        String s = "1,2,3, ,";
+//        String[] split = s.split(",");
+//        Lotto lotto = new Lotto(Arrays.stream(split).map(Integer::parseInt).toList());
+//        System.out.println(lotto.getNumbers());
+//    }
 
     @Override
     public void runMain() {

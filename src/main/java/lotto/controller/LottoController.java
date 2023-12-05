@@ -32,24 +32,24 @@ public class LottoController {
         outputView.printTotalBenefit(results, purchasePrice);
     }
 
+    private PurchasePrice inputPurchasePrice() {
+        while (true) {
+            try {
+                outputView.printInputPurchasePriceMessage();
+                UserInput.purchasePriceDTO purchasePriceDTO = new UserInput.purchasePriceDTO(inputView.inputString());
+                return new PurchasePrice(purchasePriceDTO.getPrice());
+            } catch (IllegalArgumentException e) {
+                System.out.println("[ERROR] 구매 금액 에러");
+            }
+        }
+    }
+
     private WinningLotto getWinningLotto() {
         while(true) {
             try {
                  return new WinningLotto(inputLotto(), inputBonusNum());
             } catch (IllegalArgumentException e) {
                 System.out.println("[ERROR] 당첨 로또 생성 에러");
-            }
-        }
-    }
-
-    private BonusNum inputBonusNum() {
-        while (true) {
-            try {
-                outputView.printBonusNumberMessage();
-                UserInput.BonusNumDTO bonusNumDTO = new UserInput.BonusNumDTO(inputView.inputString());
-                return new BonusNum(bonusNumDTO.getBonusNum());
-            } catch (IllegalArgumentException e) {
-                System.out.println("[ERROR] 보너스 번호 에러");
             }
         }
     }
@@ -67,14 +67,14 @@ public class LottoController {
         }
     }
 
-    private PurchasePrice inputPurchasePrice() {
+    private BonusNum inputBonusNum() {
         while (true) {
             try {
-                outputView.printInputPurchasePriceMessage();
-                UserInput.purchasePriceDTO purchasePriceDTO = new UserInput.purchasePriceDTO(inputView.inputString());
-                return new PurchasePrice(purchasePriceDTO.getPrice());
+                outputView.printBonusNumberMessage();
+                UserInput.BonusNumDTO bonusNumDTO = new UserInput.BonusNumDTO(inputView.inputString());
+                return new BonusNum(bonusNumDTO.getBonusNum());
             } catch (IllegalArgumentException e) {
-                System.out.println("[ERROR] 구매 금액 에러");
+                System.out.println("[ERROR] 보너스 번호 에러");
             }
         }
     }

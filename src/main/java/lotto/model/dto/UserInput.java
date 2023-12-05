@@ -6,9 +6,10 @@ import java.util.List;
 public class UserInput {
 
     public static class WinnerNumbersDTO {
-        private String numbers;
+        private final String numbers;
 
         public WinnerNumbersDTO(String numbers) {
+            validateAllIsNumber(numbers);
             validateNotNull(numbers);
             this.numbers = numbers;
         }
@@ -18,30 +19,38 @@ public class UserInput {
                     .map(Integer::parseInt)
                     .toList();
         }
+
+        private void validateAllIsNumber(String numbers) {
+            String[] split = numbers.split(",");
+            Arrays.stream(split)
+                    .forEach(UserInput::validateIsNumber);
+        }
     }
 
     public static class BonusNumDTO {
-        private String bonusNum;
+        private final int bonusNum;
 
         public BonusNumDTO(String bonusNum) {
             validateNotNull(bonusNum);
-            this.bonusNum = bonusNum;
+            validateIsNumber(bonusNum);
+            this.bonusNum = Integer.parseInt(bonusNum);
         }
 
-        public String getBonusNum() {
+        public int getBonusNum() {
             return bonusNum;
         }
     }
 
     public static class purchasePriceDTO {
-        private String price;
+        private final int price;
 
         public purchasePriceDTO(String price) {
+            validateIsNumber(price);
             validateNotNull(price);
-            this.price = price;
+            this.price = Integer.parseInt(price);
         }
 
-        public String getPrice() {
+        public int getPrice() {
             return price;
         }
     }
@@ -49,6 +58,13 @@ public class UserInput {
     private static void validateNotNull(String userInput) {
         if (userInput.isEmpty()) {
             throw new IllegalArgumentException("빈 입력");
+        }
+    }
+
+    private static void validateIsNumber(String userInput) {
+        boolean isNumber = userInput.chars().allMatch(Character::isDigit);
+        if(!isNumber) {
+            throw new IllegalArgumentException("숫자가 아님");
         }
     }
 }

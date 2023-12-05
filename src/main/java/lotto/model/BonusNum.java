@@ -4,18 +4,17 @@ public class BonusNum {
 
     private final int num;
 
-    public BonusNum(String num) {
+    public BonusNum(int num) {
         validate(num);
-        this.num = Integer.parseInt(num);
+        this.num = num;
     }
 
     public int getNum() {
         return num;
     }
 
-    private void validate(String userInput) {
-        int num = Integer.parseInt(userInput);
-        if (num < 1 || num > 45) {
+    private void validate(int userInput) {
+        if (userInput < 1 || userInput > 45) {
             throw new IllegalArgumentException("범위를 벗어난 숫자");
         }
     }
