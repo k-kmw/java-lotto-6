@@ -2,56 +2,47 @@ package lotto.controller;
 
 import lotto.model.*;
 import lotto.model.dto.UserInput;
+import lotto.service.LottoService;
 import lotto.view.InputView;
 import lotto.view.OutputView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class LottoController {
 
     private final InputView inputView;
-
     private final OutputView outputView;
+    private final LottoService lottoService;
 
-    public LottoController(InputView inputView, OutputView outputView) {
+    public LottoController(InputView inputView, OutputView outputView, LottoService lottoService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.lottoService = lottoService;
     }
 
     public void start() {
-        PurchasePrice purchasePrice = getPurchasePrice();
-        List<Lotto> purchasedLottos = LottoGenerator.generateLotto(purchasePrice);
+        PurchasePrice purchasePrice = inputPurchasePrice();
+        List<Lotto> purchasedLottos = lottoService.generateLotto(purchasePrice);
         outputView.printPurchasedLottosNumber(purchasedLottos);
 
         WinningLotto winningLotto = getWinningLotto();
 
-        List<Result> results = getResults(purchasedLottos, winningLotto);
+        List<Result> results = lottoService.getResults(purchasedLottos, winningLotto);
 
         outputView.printWinnerStatics(results);
         outputView.printTotalBenefit(results, purchasePrice);
     }
 
-    private List<Result> getResults(List<Lotto> purchasedLottos, WinningLotto winningLotto) {
-        List<Result> results = new ArrayList<>();
-        for (Lotto purchasedLotto : purchasedLottos) {
-            Result result = purchasedLotto.match(winningLotto);
-            results.add(result);
-        }
-        return results;
-    }
-
     private WinningLotto getWinningLotto() {
         while(true) {
             try {
-                 return new WinningLotto(getLotto(), getBonusNum());
+                 return new WinningLotto(inputLotto(), inputBonusNum());
             } catch (IllegalArgumentException e) {
                 System.out.println("[ERROR] 당첨 로또 생성 에러");
             }
         }
     }
 
-    private BonusNum getBonusNum() {
+    private BonusNum inputBonusNum() {
         while (true) {
             try {
                 outputView.printBonusNumberMessage();
@@ -63,7 +54,7 @@ public class LottoController {
         }
     }
 
-    private Lotto getLotto() {
+    private Lotto inputLotto() {
         while (true) {
             try {
                 outputView.printWinnerNumberMessage();
@@ -76,7 +67,7 @@ public class LottoController {
         }
     }
 
-    private PurchasePrice getPurchasePrice() {
+    private PurchasePrice inputPurchasePrice() {
         while (true) {
             try {
                 outputView.printInputPurchasePriceMessage();
