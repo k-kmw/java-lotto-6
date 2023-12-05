@@ -28,7 +28,7 @@ public class LottoController {
 
         List<Result> results = lottoService.getResults(purchasedLottos, winningLotto);
 
-        outputView.printWinnerStatics(results);
+        outputView.printWinningStatics(results);
         outputView.printTotalBenefit(results, purchasePrice);
     }
 

@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class OutputView {
+
     public void printInputPurchasePriceMessage() {
         System.out.println("구입금액을 입력해 주세요.");
     }
@@ -27,15 +28,15 @@ public class OutputView {
         System.out.println("보너스 번호를 입력해 주세요.");
     }
 
-    public void printWinnerStatics(List<Result> results) {
+    public void printWinningStatics(List<Result> results) {
         System.out.println("당첨 통계");
         System.out.println("---");
         DecimalFormat formatter = new DecimalFormat("###,###");
-        System.out.println(Result.FIFTH.getMatchCount() + "개 일치 (" + formatter.format(Result.FIFTH.getAward()) + "원) - " + results.stream().filter(res -> res == Result.FIFTH).count() + "개");
-        System.out.println(Result.FOURTH.getMatchCount() + "개 일치 (" + formatter.format(Result.FOURTH.getAward()) + "원) - " + results.stream().filter(res -> res == Result.FOURTH).count() + "개");
-        System.out.println(Result.THIRD.getMatchCount() + "개 일치 (" + formatter.format(Result.THIRD.getAward()) + "원) - " + results.stream().filter(res -> res == Result.THIRD).count() + "개");
-        System.out.println(Result.SECOND.getMatchCount() + "개 일치, 보너스 볼 일치 (" + formatter.format(Result.SECOND.getAward()) + "원) - " + results.stream().filter(res -> res == Result.SECOND).count() + "개");
-        System.out.println(Result.FIRST.getMatchCount() + "개 일치 (" + formatter.format(Result.FIRST.getAward()) + "원) - " + results.stream().filter(res -> res == Result.FIRST).count() + "개");
+        printWinningStatic(formatter, results, Result.FIFTH);
+        printWinningStatic(formatter, results, Result.FOURTH);
+        printWinningStatic(formatter, results, Result.THIRD);
+        printWinningStatic(formatter, results, Result.SECOND);
+        printWinningStatic(formatter, results, Result.FIRST);
     }
 
     public void printTotalBenefit(List<Result> results, PurchasePrice purchasePrice) {
@@ -43,5 +44,16 @@ public class OutputView {
                 .mapToInt(Result::getAward)
                 .sum();
         System.out.println("총 수익률은 "+ (totalAward/purchasePrice.getPrice())*100 + "%입니다.");
+    }
+
+    private void printWinningStatic(DecimalFormat formatter, List<Result> results, Result result) {
+        long count = results.stream()
+                .filter(res -> res == result)
+                .count();
+        if (result == Result.SECOND) {
+            System.out.println(result.getMatchCount() + "개 일치, 보너스 볼 일치 (" + formatter.format(result.getAward()) + "원) - " + count + "개");
+            return;
+        }
+        System.out.println(result.getMatchCount() + "개 일치 (" + formatter.format(result.getAward()) + "원) - " + count + "개");
     }
 }
