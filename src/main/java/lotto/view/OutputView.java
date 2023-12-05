@@ -34,7 +34,7 @@ public class OutputView {
         System.out.println(Result.FIFTH.getMatchCount() + "개 일치 (" + formatter.format(Result.FIFTH.getAward()) + "원) - " + results.stream().filter(res -> res == Result.FIFTH).count() + "개");
         System.out.println(Result.FOURTH.getMatchCount() + "개 일치 (" + formatter.format(Result.FOURTH.getAward()) + "원) - " + results.stream().filter(res -> res == Result.FOURTH).count() + "개");
         System.out.println(Result.THIRD.getMatchCount() + "개 일치 (" + formatter.format(Result.THIRD.getAward()) + "원) - " + results.stream().filter(res -> res == Result.THIRD).count() + "개");
-        System.out.println(Result.SECOND.getMatchCount() + "개 일치 (" + formatter.format(Result.SECOND.getAward()) + "원) - " + results.stream().filter(res -> res == Result.SECOND).count() + "개");
+        System.out.println(Result.SECOND.getMatchCount() + "개 일치, 보너스 볼 일치 (" + formatter.format(Result.SECOND.getAward()) + "원) - " + results.stream().filter(res -> res == Result.SECOND).count() + "개");
         System.out.println(Result.FIRST.getMatchCount() + "개 일치 (" + formatter.format(Result.FIRST.getAward()) + "원) - " + results.stream().filter(res -> res == Result.FIRST).count() + "개");
     }
 
@@ -42,6 +42,6 @@ public class OutputView {
         double totalAward = results.stream()
                 .mapToInt(Result::getAward)
                 .sum();
-        System.out.println("총 수익률은 "+ totalAward/purchasePrice.getPrice() + "% 입니다.");
+        System.out.println("총 수익률은 "+ (totalAward/purchasePrice.getPrice())*100 + "%입니다.");
     }
 }

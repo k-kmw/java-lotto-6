@@ -1,6 +1,7 @@
 package lotto.model;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class Lotto {
@@ -15,22 +16,25 @@ public class Lotto {
         if (numbers.size() != 6) {
             throw new IllegalArgumentException();
         }
+        if (new HashSet<>(numbers).size() != numbers.size()) {
+            throw new IllegalArgumentException("중복된 숫자 존재");
+        }
     }
 
     public List<Integer> getNumbers() {
         return Collections.unmodifiableList(numbers);
     }
 
-    public Result match(WinnerLottoNumber winnerLottoNumber, BonusNum bonusNum) {
+    public Result match(WinningLotto winnerLotto) {
         int matchCount = 0;
         boolean matchBonus = false;
         for (Integer number : numbers) {
-            for (Integer winnerNumber : winnerLottoNumber.getWinnerNumbers()) {
+            for (Integer winnerNumber : winnerLotto.getLotto().getNumbers()) {
                 if (number.equals(winnerNumber)) {
                     matchCount++;
                 }
             }
-            if (number == bonusNum.getNum()) {
+            if (number == winnerLotto.getBonusNum().getNum()) {
                 matchBonus = true;
             }
         }
