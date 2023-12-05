@@ -1,5 +1,7 @@
 package lotto.model;
 
+import lotto.constant.Constant;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Lotto {
     }
 
     private void validate(List<Integer> numbers) {
-        if (numbers.size() != 6) {
+        if (numbers.size() != Constant.LOTTO_NUMBER_COUNT) {
             throw new IllegalArgumentException();
         }
         if (new HashSet<>(numbers).size() != numbers.size()) {
@@ -42,19 +44,19 @@ public class Lotto {
     }
 
     private Result getResult(int matchCount, boolean matchBonus) {
-        if (matchCount == 6) {
+        if (matchCount == Result.FIRST.getMatchCount()) {
             return Result.FIRST;
         }
-        if (matchCount == 5 && matchBonus) {
+        if (matchCount == Result.SECOND.getMatchCount() && matchBonus) {
             return Result.SECOND;
         }
-        if (matchCount == 5) {
+        if (matchCount == Result.THIRD.getMatchCount()) {
             return Result.THIRD;
         }
-        if (matchCount == 4) {
+        if (matchCount == Result.FOURTH.getMatchCount()) {
             return Result.FOURTH;
         }
-        if (matchCount == 3) {
+        if (matchCount == Result.FIFTH.getMatchCount()) {
             return Result.FIFTH;
         }
         return Result.OTHER;

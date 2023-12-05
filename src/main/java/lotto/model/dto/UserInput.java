@@ -1,5 +1,7 @@
 package lotto.model.dto;
 
+import lotto.constant.Constant;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,13 +17,13 @@ public class UserInput {
         }
 
         public List<Integer> toList() {
-            return Arrays.stream(numbers.split(","))
+            return Arrays.stream(numbers.split(Constant.NUMBER_DELIMITER))
                     .map(Integer::parseInt)
                     .toList();
         }
 
         private void validateAllIsNumber(String numbers) {
-            String[] split = numbers.split(",");
+            String[] split = numbers.split(Constant.NUMBER_DELIMITER);
             Arrays.stream(split)
                     .forEach(UserInput::validateIsNumber);
         }

@@ -1,5 +1,6 @@
 package lotto.view;
 
+import lotto.constant.Constant;
 import lotto.model.Lotto;
 import lotto.model.PurchasePrice;
 import lotto.model.Result;
@@ -31,7 +32,7 @@ public class OutputView {
     public void printWinningStatics(List<Result> results) {
         System.out.println("당첨 통계");
         System.out.println("---");
-        DecimalFormat formatter = new DecimalFormat("###,###");
+        DecimalFormat formatter = new DecimalFormat(Constant.NUMBER_FORMAT_PATTERN);
         printWinningStatic(formatter, results, Result.FIFTH);
         printWinningStatic(formatter, results, Result.FOURTH);
         printWinningStatic(formatter, results, Result.THIRD);

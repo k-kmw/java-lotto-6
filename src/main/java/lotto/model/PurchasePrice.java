@@ -1,5 +1,7 @@
 package lotto.model;
 
+import lotto.constant.Constant;
+
 public class PurchasePrice {
 
     private final int price;
@@ -14,7 +16,7 @@ public class PurchasePrice {
     }
 
     private void validate(int price) {
-        if (price % 1000 != 0 || price < 1000) {
+        if (price % Constant.LOTTO_PRICE != 0 || price < Constant.LOTTO_PRICE) {
             throw new IllegalArgumentException("[ERROR]");
         }
     }

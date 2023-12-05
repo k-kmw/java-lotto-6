@@ -1,5 +1,7 @@
 package lotto.model;
 
+import lotto.constant.Constant;
+
 public class BonusNum {
 
     private final int num;
@@ -14,7 +16,7 @@ public class BonusNum {
     }
 
     private void validate(int userInput) {
-        if (userInput < 1 || userInput > 45) {
+        if (userInput < Constant.MIN_LOTTO_NUM || userInput > Constant.MAX_LOTTO_NUM) {
             throw new IllegalArgumentException("범위를 벗어난 숫자");
         }
     }
