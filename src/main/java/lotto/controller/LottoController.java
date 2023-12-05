@@ -4,6 +4,7 @@ import lotto.model.*;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LottoController {
@@ -19,18 +20,22 @@ public class LottoController {
 
     public void start() {
         outputView.printInputPurchasePriceMessage();
-        String userInputPurchasePrice = inputView.inputPurchasePrice();
+        String userInputPurchasePrice = inputView.inputString();
         PurchasePrice purchasePrice = new PurchasePrice(userInputPurchasePrice);
         List<Lotto> purchasedLottos = LottoGenerator.generateLotto(purchasePrice);
         outputView.printPurchasedLottosNumber(purchasedLottos);
         outputView.printWinnerNumberMessage();
-        String winnerNumber = inputView.inputWinnerNumber();
+        String winnerNumber = inputView.inputString();
         WinnerLottoNumber winnerLottoNumber = new WinnerLottoNumber(winnerNumber);
-        outputView.printBonusNumberMesssage();
-        String bonusNumber = inputView.inputBonusNumber();
+        outputView.printBonusNumberMessage();
+        String bonusNumber = inputView.inputString();
         BonusNum bonusNum = new BonusNum(bonusNumber);
-        LottoDrawer lottoDrawer = new LottoDrawer();
-        List<Result> results = lottoDrawer.award(purchasedLottos, winnerLottoNumber, bonusNum);
-        outputView.printWinnerStatics(results, purchasePrice);
+        List<Result> results = new ArrayList<>();
+        for (Lotto lotto : purchasedLottos) {
+            Result result = lotto.match(winnerLottoNumber, bonusNum);
+            results.add(result);
+        }
+        outputView.printWinnerStatics(results);
+        outputView.printTotalBenefit(results, purchasePrice);
     }
 }

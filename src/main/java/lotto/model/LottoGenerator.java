@@ -9,8 +9,11 @@ public class LottoGenerator {
 
     public static List<Lotto> generateLotto(PurchasePrice purchasePrice) {
         List<Lotto> lottos = new ArrayList<>();
-        Lotto lotto = new Lotto(Randoms.pickUniqueNumbersInRange(1, 45, 6));
-        lottos.add(lotto);
+        int purchaseNum = purchasePrice.getPrice() / 1000;
+        for(int i=0; i<purchaseNum; i++) {
+            Lotto lotto = new Lotto(Randoms.pickUniqueNumbersInRange(1, 45, 6));
+            lottos.add(lotto);
+        }
         return lottos;
     }
 }
